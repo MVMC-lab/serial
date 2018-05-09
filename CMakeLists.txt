@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(serial)
 
+if(UNIX AND NOT APPLE)
 # Find catkin
 find_package(catkin REQUIRED)
+endif()
 
 if(APPLE)
 	find_library(IOKIT_LIBRARY IOKit)
@@ -19,11 +21,7 @@ if(UNIX AND NOT APPLE)
         DEPENDS rt pthread
     )
 else()
-    # Otherwise normal call
-    catkin_package(
-        LIBRARIES ${PROJECT_NAME}
-        INCLUDE_DIRS include
-    )
+
 endif()
 
 ## Sources
@@ -66,15 +64,13 @@ include_directories(include)
 
 ## Install executable
 install(TARGETS ${PROJECT_NAME}
-    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
 ## Install headers
 install(FILES include/serial/serial.h include/serial/v8stdint.h
-  DESTINATION ${CATKIN_GLOBAL_INCLUDE_DESTINATION}/serial)
+DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/serial)
 
 ## Tests
-if(CATKIN_ENABLE_TESTING)
-    add_subdirectory(tests)
-endif()
+add_subdirectory(tests)

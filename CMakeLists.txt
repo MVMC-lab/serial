@@ -70,13 +70,19 @@ include_directories(include)
 
 ## Install executable
 install(TARGETS ${PROJECT_NAME}
+	EXPORT "${PROJECT_NAME}Config"
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
+install(EXPORT "${PROJECT_NAME}Config" DESTINATION share/ASALib/cmake)
+
 ## Install headers
 install(FILES include/serial/serial.h include/serial/v8stdint.h
 DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/serial)
+
+# This makes the project importable from the build directory
+export(TARGETS ${PROJECT_NAME} FILE "${PROJECT_NAME}Config.cmake")
 
 ## Tests
 add_subdirectory(tests)

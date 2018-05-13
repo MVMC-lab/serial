@@ -84,5 +84,10 @@ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/serial)
 # This makes the project importable from the build directory
 export(TARGETS ${PROJECT_NAME} FILE "${PROJECT_NAME}Config.cmake")
 
+# Expose public includes to other
+# subprojects through cache variable.
+set(${PROJECT_NAME}_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
+    CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)
+
 ## Tests
 add_subdirectory(tests)
